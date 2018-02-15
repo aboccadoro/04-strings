@@ -2,11 +2,37 @@ import argparse
 
 
 def print_strings(file_obj, encoding, min_len):
-    # Right now all this function does is print its arguments.
-    # You'll need to replace that code with code that actually finds and prints the strings!
-    print(file_obj.name)
-    print(encoding)
-    print(min_len)
+    if encoding == 's':
+        while True:
+            string = ""
+            byte = file_obj.read(1).decode("UTF-8", errors="replace")
+            if len(byte) == 0: break
+            while ord(byte) > 31 and ord(byte) < 127:
+                string += byte
+                byte = file_obj.read(1).decode("UTF-8", errors="replace")
+                if len(byte) == 0: break
+            if len(string) >= min_len: print(string)
+    elif encoding == 'b':
+        while True:
+            string = ""
+            byte = file_obj.read(2).decode("UTF-16BE", errors="replace")
+            if len(byte) == 0: break
+            while ord(byte) > 31 and ord(byte) < 127:
+                string += byte
+                byte = file_obj.read(2).decode("UTF-16BE", errors="replace")
+                if len(byte) == 0: break
+            if len(string) >= min_len: print(string)
+    elif encoding == 'l':
+        while True:
+            string = ""
+            byte = file_obj.read(2).decode("UTF-16LE", errors="replace")
+            if len(byte) == 0: break
+            while ord(byte) > 31 and ord(byte) < 127:
+                string += byte
+                byte = file_obj.read(2).decode("UTF-16LE", errors="replace")
+                if len(byte) == 0: break
+            if len(string) >= min_len: print(string)
+            
 
 
 def main():
